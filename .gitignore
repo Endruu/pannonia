@@ -1,3 +1,16 @@
 assets/
 protected/runtime/
 themes/classic/views/
+
+# YII-BOOSTER
+/protected/extensions/yii-booster/actions
+/protected/extensions/yii-booster/assets
+/protected/extensions/yii-booster/components
+/protected/extensions/yii-booster/filters
+/protected/extensions/yii-booster/gii
+/protected/extensions/yii-booster/helpers
+/protected/extensions/yii-booster/views
+/protected/extensions/yii-booster/widgets
+/protected/extensions/yii-booster/CHANGELOG.md
+/protected/extensions/yii-booster/INSTALL.md
+/protected/extensions/yii-booster/LICENSE
