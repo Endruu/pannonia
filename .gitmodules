@@ -1,0 +1,3 @@
+[submodule "protected/modules/livemigration"]
+	path = protected/modules/livemigration
+	url = https://github.com/Endruu/live-migration.git
