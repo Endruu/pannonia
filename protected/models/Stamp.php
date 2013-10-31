@@ -134,4 +134,12 @@ class Stamp extends CActiveRecord
 		$this->lectored_at = new CDbExpression('NOW()');
 		return $this->save();
 	}
+	
+	public function isLectored() {
+		if( $this->lectored_at ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

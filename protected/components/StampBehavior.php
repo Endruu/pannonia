@@ -25,4 +25,9 @@ class StampBehavior extends CActiveRecordBehavior {
 	public function lector() {
 		return $this->owner->stamp->lector();
 	}
+	
+	public function isLectored() {
+		return $this->owner->stamp->isLectored();
+	}
+	
 }
