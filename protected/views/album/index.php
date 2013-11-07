@@ -18,3 +18,7 @@ $this->menu=array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
 )); ?>
+
+
+<?php $this->renderPartial("_create_modal"); ?>
+<?php $this->renderPartial("_create_modal_btn"); ?>

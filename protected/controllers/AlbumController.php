@@ -32,7 +32,7 @@ class AlbumController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'createModal'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -79,6 +79,38 @@ class AlbumController extends Controller
 		));
 	}
 
+	public function actionCreateModal()
+	{
+		$model = new Album;
+		
+		$pp = true;
+		if( isset($_POST['Album']) )
+		{
+			$pp = false;
+			$model->attributes = $_POST['Album'];
+			if($model->save()) {
+				$this->renderPartial(
+					'_view_modal_body',
+					array(
+						'data' => $model,
+					),
+					false,	// echo
+					true	// postProcess
+				);
+				return;
+			}
+		}
+		
+		$this->renderPartial(
+			'_create_modal_body',
+			array(
+				'model' => $model,
+				'renderBtn' => $pp,
+			),
+			false,	// echo
+			true	// postProcess
+		);
+	}
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.

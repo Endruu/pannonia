@@ -12,45 +12,44 @@ $this->menu=array(
 	array('label'=>'Create Album', 'url'=>array('create')),
 );
 
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#album-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
-<h1>Manage Albums</h1>
+<h1>Albumok - Admin</h1>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
+<?php
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
-
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'album-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'album_id',
-		'name',
-		'stamp_id',
-		'public',
-		array(
-			'class'=>'CButtonColumn',
-		),
+$gridColumns = array(
+	array('name'=>'album_id', 'header' => 'A#', 'htmlOptions' => array('style' => 'width: 50px')),
+	array('name'=>'name', 'header' => CHtml::activeLabel($model, 'name')),
+	array(
+		'name'		=> 'public',
+		'header'	=> CHtml::activeLabel($model, 'public'),
+		'class'		=> 'bootstrap.widgets.TbToggleColumn',
+		'checkedButtonLabel'	=> 'Publikus',
+		'uncheckedButtonLabel'	=> 'Privát',
+		'toggleAction'			=> 'ignore',
+		'htmlOptions'			=> array('style' => 'width: 70px')
 	),
-)); ?>
+	array(
+		'name'=>'stamp.created_at',
+		'header' => CHtml::activeLabel(Stamp::model(), 'created_at')
+	),
+	array(
+		'htmlOptions' => array('nowrap'=>'nowrap'),
+		'class'=>'bootstrap.widgets.TbButtonColumn',
+	)
+);
+
+$this->widget(
+	'bootstrap.widgets.TbExtendedGridView',
+	array(
+		//'filter' => $person,
+		'fixedHeader' => true,
+		'type' => 'striped bordered',
+		//'headerOffset' => 40,
+		// 40px is the height of the main navigation at bootstrap
+		'dataProvider' => $model->search(),	// kontrollerbe!
+		'template' => "{items}",
+		'columns' => $gridColumns,
+	)
+);

@@ -104,7 +104,8 @@ class Album extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('stamp_id',$this->stamp_id);
 		$criteria->compare('public',$this->public);
-
+		$criteria->with = 'stamp';
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
