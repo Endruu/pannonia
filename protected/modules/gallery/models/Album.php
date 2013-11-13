@@ -16,7 +16,8 @@
 class Album extends CActiveRecord
 {
 
-	protected $path = '';
+	private $fullPath	= '';
+	private $dirName	= '';
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -39,9 +40,12 @@ class Album extends CActiveRecord
 	public function behaviors()
 	{
 		return array(
-			'StampBehavior' => array(
-				'class'=>'application.components.StampBehavior',
-			)
+			'StampBehavior'	=> array(
+				'class'	=> 'application.components.StampBehavior',
+			),
+			'AiLogBehavior'	=> array(
+				'class'	=> 'application.modules.gallery.extensions.ai-logger.AiLogBehavior',
+			),
 		);
 	}
 
@@ -111,101 +115,232 @@ class Album extends CActiveRecord
 		));
 	}
 	
-	public function setAlbumPath()
+	public function createDir()
 	{
-		$this->path = Yii::getPathOfAlias('webroot') . '/images/';
-		if( $this->primaryKey == null ) {
-			$this->path .= sprintf('t%05d', mt_rand(0,99999));		// temporary
-		} else {
-			if( $this->stamp->parent_id ) {
-				$this->path .= sprintf('a%05d', $this->album_id);	// normal
-			} else {
-				$this->path .= sprintf('d%05d', $this->album_id);	// draft
+		if( !$this->getIsNewRecord() ) {
+			$this->aiInfo("Creating directory for new album", "CreateDir");
+			
+			$this->setPath();
+			
+			$path	= Yii::app()->getModule('gallery')->albumPath . $this->dirName . '/';
+			$map	= Yii::app()->getModule('gallery')->albumMap;
+			
+			foreach( $map['videos'] as $n => $p ) {
+				$pd = $path . $p;
+				if( !is_dir($pd) ) {
+					if( !mkdir($pd, 0777, true) ) {
+						$this->aiError("Can't create directory for videos-$n:\n$pd", "CreateDir");
+						return 0;
+					}
+				}
+				if( $map['deleted'] ) {
+					$pd = $path . $map['deleted'] . $p;
+					if( !is_dir($pd) ) {
+						if( !mkdir($pd, 0777, true) ) {
+							$this->aiError("Can't create directory for deleted videos-$n:\n$pd", "CreateDir");
+							return 0;
+						}
+					}
+				}
 			}
+			
+			foreach( $map['pictures'] as $n => $p ) {
+				$pd = $path . $p;
+				if( !is_dir($pd) ) {
+					if( !mkdir($pd, 0777, true) ) {
+						$this->aiError("Can't create directory for pictures-$n:\n$pd", "CreateDir");
+						return 0;
+					}
+				}
+				if( $map['deleted'] ) {
+					$pd = $path . $map['deleted'] . $p;
+					if( !is_dir($pd) ) {
+						if( !mkdir($pd, 0777, true) ) {
+							$this->aiError("Can't create directory for deleted pictures-$n:\n$pd", "CreateDir");
+							return 0;
+						}
+					}
+				}
+			}
+			
+			$this->aiInfo("Directory " . $this->dirName . " created." , "CreateDir");
+		
+		} else {
+			$this->aiWarn("Directory already exists!", "CreateDir");
 		}
+		
+		return 1;
 	}
 	
-	protected function afterConstruct()
-	{
-		$this->setAlbumPath();
+	private function _delDirSub( $path, $dir, $force = false ) {
+		$pdir = $path . $dir;
 		
-		if($this->hasEventHandler('onAfterConstruct'))
-			$this->onAfterConstruct(new CEvent($this));
+		if( is_dir($pdir) ) {
+			if( $force ) {
+				$obj = scandir($pdir);
+				foreach( $obj as $o ) {
+					if( is_file( $pdir . $o ) ) {
+						if( unlink( $pdir . $o ) ) {
+							$this->aiWarn("File deleted: $pdir$o", "DeleteDir");
+						} else {
+							$this->aiError("Can't delete file : $pdir$o", "DeleteDir");
+							return 0;
+						}
+					}
+				}
+			}
+			
+			$dirs[0] = ''; $i = 0;
+			foreach( explode('/', $dir) as $d ) {
+				$i++;
+				$dirs[$i] = $dirs[$i-1] . $d . '/';
+			}
+			array_shift($dirs);				// $dirs[0] = ''
+			$dirs = array_reverse($dirs);
+			array_shift($dirs);				// last '/'
+			
+			foreach( $dirs as $d ) {
+				if( is_dir($path . $d) ) {
+					if( @rmdir($path . $d) ) {
+						$this->aiInfo("Directory deleted: $path$d", "DeleteDir");
+					} else {
+						$this->aiWarn("Can't delete directory: $path$d", "DeleteDir");
+						return 0;
+					}
+				}
+			}
+		}
+		
+		return 1;
+	}
+	
+	public function deleteDir( $forceDeleted = false, $forceNormal = false ) {
+		$this->setPath();
+		$path	= Yii::app()->getModule('gallery')->albumPath . $this->dirName . '/';
+		$map	= Yii::app()->getModule('gallery')->albumMap;
+		
+		$this->aiInfo("Deleting directory: $path", "DeleteDir");
+		
+		foreach( $map['videos'] as $n => $p ) {
+
+			if( $map['deleted'] )
+				$this->_delDirSub($path, $map['deleted'].$p, $forceDeleted);
+			
+			$this->_delDirSub($path, $p, $forceNormal);
+
+		}
+		
+		foreach( $map['pictures'] as $n => $p ) {
+
+			if( $map['deleted'] )
+				$this->_delDirSub($path, $map['deleted'].$p, $forceDeleted);
+			
+			$this->_delDirSub($path, $p, $forceNormal);
+
+		}
+		
+		if( @rmdir($path) ) {
+			$this->aiInfo("Directory deleted: $path", "DeleteDir");
+		} else {
+			$this->aiError("Can't delete directory: $path", "DeleteDir");
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	public function setPath() {
+		if( $this->stamp_id === null ) {
+			$this->aiError("Missing stamp", "SetPath");
+			return;
+		}
+	
+		if( $this->stamp->isLectored() ) {
+			$this->dirName = sprintf('a%05d', $this->album_id);	// normal
+		} else {
+			$this->dirName = sprintf('d%05d', $this->album_id);	// draft
+		}
+		
+		$this->fullPath = Yii::app()->getModule('gallery')->albumPath . $this->dirName . '/';
 	}
 	
 	protected function afterFind()
 	{
-		$this->setAlbumPath();
+		$this->setPath();
 		
 		if($this->hasEventHandler('onAfterFind'))
 			$this->onAfterFind(new CEvent($this));
 	}
-
-	protected function beforeSave()
+	
+	public function save($runValidation=true,$attributes=null)
 	{
-		
-		if( !is_dir( $this->path ) ) {
-			if( mkdir( $this->path, 0777, true ) ) {
-				chmod( $this->path, 0777 );
+		if(!$runValidation || $this->validate($attributes))
+			if( $this->getIsNewRecord() ) {
+				if( $this->insert($attributes) ) {
+					if( $this->createDir() ) {
+						$this->saveState();
+						return true;
+					} else {
+						if( !( $this->delete() && $this->permaDelete() ) ) {
+							$this->aiError("Can't delete corrupt album!", "Save");
+						}
+						return false;
+					}
+				} else {
+					return false;
+				}
 			} else {
-				$this->addError('name','Nem sikerült létrehozni a mappát!');
+				return $this->update($attributes);
+			}
+		else
+			return false;
+	}
+
+	public function delete()
+	{
+		return $this->permaDelete();
+		
+		if(!$this->getIsNewRecord())
+		{
+			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
+			$this->aiInfo("Attempting to delete album", "Delete");
+			$this->deleted = new CDbExpression('NOW()');
+			if( $this->update('deleted') ) {
+				$this->aiInfo("Album deleted", "Delete");
+				return true;
+			} else {
+				$this->aiError("Failed to delete album", "Delete");
 				return false;
 			}
 		}
-
-		if($this->hasEventHandler('onBeforeSave'))
-		{
-			$event=new CModelEvent($this);
-			$this->onBeforeSave($event);
-			return $event->isValid;
-		}
 		else
-			return true;
-	}
-	
-	protected function afterSave()
-	{
-		$this->isNewRecord = false;
-		$oldpath = $this->path;
-		$this->setAlbumPath();
+			throw new CDbException(Yii::t('yii','The active record cannot be deleted because it is new.'));
 		
-		if( $oldpath != $this->path ) {
-			if( is_dir( $oldpath ) ) {
-				if( !rename($oldpath, $this->path) ) {
-					$this->addError('name','Nem sikerült véglegesíteni a mappát!');
-					if( !rmdir($oldpath) ) {
-						$this->addError('name','Nem sikerült eltávolítani a mappát!');
-					} else {
-						$this->delete();
+	}
+
+	public function permaDelete() {
+		$pk = $this->getPrimaryKey();
+		$this->aiInfo("Attempting to permanently delete album...", "PermaDelete");
+		$this->saveState();
+		if( !$this->deleteDir(true) ) {
+			$this->aiWarn("Can't delete directory!", "Album.PermaDelete");
+		}
+		
+		if( $this->aiLogger->flushFromDb('album', $pk) ) {
+			if( $this->aiLogger->deleteFromDb('album', $pk) ) {
+				if($this->beforeDelete())
+				{
+					$result = $this->deleteByPk($pk) > 0;
+					$this->afterDelete();
+					if( $result ) {
+						$this->aiInfo("Album permanently deleted!", "PermaDelete");
+						return true;
 					}
 				}
-			} else {
-				$this->addError('name','Hiányzó mappa!');
-				$this->delete();
 			}
 		}
-		
-		
-		if($this->hasEventHandler('onAfterSave'))
-			$this->onAfterSave(new CEvent($this));
-			
-	}
-	
-	protected function beforeDelete()
-	{
-		if( is_dir( $this->path ) && !rmdir($this->path) ) {
-			$this->addError('name','Nem sikerült eltávolítani a mappát!');
-			return false;
-		}
-	
-		if($this->hasEventHandler('onBeforeDelete'))
-		{
-			$event=new CModelEvent($this);
-			$this->onBeforeDelete($event);
-			return $event->isValid;
-		}
-		else
-			return true;
+		$this->aiError("Failed to permanently delete album!", "PermaDelete");
+		return false;
 	}
 	
 }

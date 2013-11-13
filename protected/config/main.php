@@ -56,11 +56,11 @@ return array(
 		*/
 
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=pannonia',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
-			'charset' => 'utf8',
+			'connectionString'	=> 'mysql:host=localhost;dbname=pannonia_test',
+			'emulatePrepare'	=> true,
+			'username'			=> 'root',
+			'password'			=> '',
+			'charset'			=> 'utf8',
 		),
 
 		'errorHandler'=>array(
@@ -73,6 +73,14 @@ return array(
 				array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
+				),
+				array(
+					'class'			=> 'application.modules.gallery.extensions.ai-logger.AiLogRoute',
+					'categories'	=> array(
+										'AiLog.*',
+										'php',
+										'exception.*'
+									),
 				),
 				// uncomment the following to show log messages on web pages
 				/*

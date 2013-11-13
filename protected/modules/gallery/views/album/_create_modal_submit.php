@@ -5,7 +5,7 @@ $this->widget(
 		'buttonType' => 'submit',
 		'type'		=> 'primary',
 		'label'		=> 'Létrehoz',
-		'url'		=> Yii::app()->createUrl('album/createModal'),
+		'url'		=> Yii::app()->createUrl('gallery/album/createModal'),
 		'ajaxOptions' => array(
 			'update' => '.modal-body'
 		)

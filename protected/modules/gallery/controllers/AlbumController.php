@@ -32,7 +32,7 @@ class AlbumController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'createModal'),
+				'actions'=>array('create','update', 'createAjax'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -63,6 +63,7 @@ class AlbumController extends Controller
 	public function actionCreate()
 	{
 		$model=new Album;
+		$model->startAiLog();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -70,23 +71,24 @@ class AlbumController extends Controller
 		if(isset($_POST['Album']))
 		{
 			$model->attributes=$_POST['Album'];
-			if($model->save())
+			if($model->save()) {
+				$model->stopAiLog();
 				$this->redirect(array('view','id'=>$model->album_id));
+			}
 		}
 
+		$model->stopAiLog();
 		$this->render('create',array(
 			'model'=>$model,
 		));
 	}
 
-	public function actionCreateModal()
+	public function actionCreateAjax()
 	{
 		$model = new Album;
 		
-		$pp = true;
 		if( isset($_POST['Album']) )
 		{
-			$pp = false;
 			$model->attributes = $_POST['Album'];
 			if($model->save()) {
 				$this->renderPartial(
@@ -97,19 +99,32 @@ class AlbumController extends Controller
 					false,	// echo
 					true	// postProcess
 				);
-				return;
+				
+			} else {
+				$this->renderPartial(
+					'_create_ajax',
+					array(
+						'model' => $model,
+					),
+					false,	// echo
+					true	// postProcess
+				);
 			}
-		}
+			//$this->redirect(array('index'));
+			//Yii::app()->end();
+			//return;
+		} else {
 		
-		$this->renderPartial(
-			'_create_modal_body',
-			array(
-				'model' => $model,
-				'renderBtn' => $pp,
-			),
-			false,	// echo
-			true	// postProcess
-		);
+			$this->renderPartial(
+				'_create_ajax',
+				array(
+					'model' => $model,
+				),
+				false,	// echo
+				true	// postProcess
+			);
+			//Yii::app()->end();
+		}
 	}
 	/**
 	 * Updates a particular model.
@@ -142,7 +157,10 @@ class AlbumController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+		$model->startAiLog();
+		$model->delete();
+		$model->stopAiLog();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))

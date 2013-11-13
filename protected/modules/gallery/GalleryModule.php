@@ -2,15 +2,42 @@
 
 class GalleryModule extends CWebModule
 {
+	public $albumPath	= 'images/';
+	public $albumMap	= null;
+	public $thumbWidth	= 328;
+	public $thumbHeight	= 216;
+
 	public function init()
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
-
+		
+		$this->albumPath = Yii::getPathOfAlias('webroot') . '/' . $this->albumPath;
+		
+		$defaultAlbumMap = array(
+			'pictures'	=>	array(
+								'thumb'		=> 'pic/thumb/',
+								'src'		=> 'pic/src/',
+							),
+			'videos'	=>	array(
+								'thumb'		=> 'vid/thumb/',
+								'src'		=> 'vid/src/',
+								'splash'	=> 'vid/splash/',
+							),
+			'deleted'	=> 'deleted/',
+		);
+		
+		if( $this->albumMap === null ) {
+			$this->albumMap = $defaultAlbumMap;
+		} else {
+			$this->albumMap = array_merge($defaultAlbumMap, $this->albumMap);
+		}
+		
 		// import the module-level models and components
 		$this->setImport(array(
 			'gallery.models.*',
 			'gallery.components.*',
+			'gallery.extensions.*',
 		));
 	}
 
@@ -26,3 +53,4 @@ class GalleryModule extends CWebModule
 			return false;
 	}
 }
+	

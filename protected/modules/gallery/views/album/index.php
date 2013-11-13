@@ -19,6 +19,6 @@ $this->menu=array(
 	'itemView'=>'_view',
 )); ?>
 
-
-<?php $this->renderPartial("_create_modal"); ?>
-<?php $this->renderPartial("_create_modal_btn"); ?>
+<div id="create-album-ajax">
+	<?php $this->renderPartial("_create_ajax", array('model' => new Album)); ?>
+</div>

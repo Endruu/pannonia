@@ -107,4 +107,35 @@ class AiLogSub extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function getLogTime( $asString = true, $withMicroSec = true ) {
+		if( $this->ai_log_main_id ) {
+			$time =	$this->logtime /= 1000000;	// usec->sec
+			$time += $this->parent->start_time;
+		}
+		
+		if( !$asString ) return $time;
+		
+		$timeAsString = date("Y-m-d H:i:s", $time);
+		
+		if( $withMicroSec ) $timeAsString .= sprintf(".%d", ($time-(int)($time))*1000000);	// usec -> sec
+
+		return $timeAsString;
+	}
+	
+	protected function beforeSave()
+	{
+		if( $this->ai_log_main_id ) {
+			$this->logtime = (int)(($this->logtime - $this->parent->start_time)*1000000);	// sec -> usec
+		}
+		
+		if($this->hasEventHandler('onBeforeSave'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeSave($event);
+			return $event->isValid;
+		}
+		else
+			return true;
+	}
 }

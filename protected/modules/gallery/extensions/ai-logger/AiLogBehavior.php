@@ -1,29 +1,39 @@
 <?php
 
 class AiLogBehavior extends CActiveRecordBehavior {
-	private $_aiLogger = new AiLogger();
+	private $_aiLogger = null;
 
 	public function startAiLog() {
-		$this->_aiLogger->start();
+		$this->getAiLogger()->start();
 	}
 	
 	public function stopAiLog() {
-		$this->_aiLogger->stop();
+		$this->getAiLogger()->stop();
 	}
 
 	public function aiLog($msg, $level, $category) {
 		if( $this->owner->tableName() == 'album' ) {
-			$aid = $this->owner->album_id;
+			$category = 'AiLog.Album.' . $category;
+			$aid = $this->owner->getIsNewRecord() ? 0 : $this->owner->getPrimaryKey();
 			$iid = 0;
 		} else {
-			$aid = $this->owner->album->album_id;
-			$iid = $this->owner->image_id;
+			$category = 'AiLog.Image.' . $category;
+			$aid = $this->owner->album->getPrimaryKey();
+			$iid = $this->owner->getIsNewRecord() ? 0 : $this->owner->getPrimaryKey();
 		}
-		$this->_aiLogger->log($msg, $level, $category, $aid, $iid);
+		$this->getAiLogger()->log($msg, $level, $category, $aid, $iid);
+	}
+	
+	public function aiTrace($msg, $category) {
+		$this->aiLog($msg, 'TRACE', $category);
 	}
 	
 	public function aiInfo($msg, $category) {
 		$this->aiLog($msg, 'INFO', $category);
+	}
+	
+	public function aiWarn($msg, $category) {
+		$this->aiLog($msg, 'WARNING', $category);
 	}
 	
 	public function aiError($msg, $category) {
@@ -33,16 +43,33 @@ class AiLogBehavior extends CActiveRecordBehavior {
 	public function aiFlush() {
 		$this->aiLog->save();
 	}
+	
+	public function getAiLogger() {
+		if( $this->_aiLogger === null )
+			$this->_aiLogger = new AiLogger();
+		return $this->_aiLogger;
+	}
+	
+	public function saveState() {
+		$attr	= $this->owner->getAttributes();
+		$table	= $this->owner->tableName();
+		foreach( $attr as $key => $val ) {
+			if( $val ) {
+				$keys[]		= $key;
+				$values[]	= $val;
+			}
+		}
+		$keys	= implode(', ', $keys);
+		$values	= implode("', '", $values);
+		$this->aiInfo("Recovery Insert: < $table ( $keys ) VALUES ( '$values' ) >", "Insert");
+	}
 }
 
 class AiLogger {
-
-	private static $_aiLogger = null;
 	
 	private $_startTime;
 	private $_aiMain	= null;
 	private $_MainId	= 0;
-	
 	
 	public function start() {
 		if( $this->_aiMain === null ) {
@@ -78,17 +105,81 @@ class AiLogger {
 	}
 	
 	public function log($msg, $level, $category, $aid, $iid = 0) {
-		if( self::$_aiLogger === null ) {
-			self::$_aiLogger = new CLogger;
-			self::$_aiLogger->autoDump	= true;
-			self::$_aiLogger->autoFlush	= 10;
-		}
-		
+		if( $this->_MainId )
+			$msg = 'T' . (int)( (microtime(true) - (int)($this->_startTime))*1000000) . ':';
 		$msg = "M" . $this->_MainId . ":A$aid:I$iid:" . $msg;
-		self::$_aiLogger->log($msg, $level, $category);
+		Yii::log($msg, $level, $category);
 	}
 	
-	public function save() {
-		self::$_aiLogger->flush(true);
+	public function flushFromDb( $attr, $id ) {
+		$filename = Yii::app()->getModule('gallery')->albumPath . 'logs/';
+		
+		Yii::getLogger()->flush(true);	// write pending logs to db before flushing db itself
+		
+		if( strtolower($attr) == 'album' ) {
+			$attr = 'aid';
+			$filename .= sprintf("a%05d.txt", $id);
+		} else {
+			$attr = 'iid';
+			$filename .= sprintf("i%05d.txt", $id);
+		}
+		
+		$crit = new CDbCriteria();
+		$crit->compare($attr, "=$id");
+		$crit->with		= 'parent';
+		$crit->order	= 't.ai_log_main_id, ai_log_sub_id ASC';
+		$del = AiLogSub::model()->findAll($crit);
+		
+		$file = fopen($filename, 'a');
+		if( !$file) {
+			return 0;
+		}
+		
+		fwrite($file, sprintf("PermaDelete: %s\n", date("Y-m-d H:i:s")));
+		
+		foreach( $del as $d ) {
+			$m = $d->ai_log_main_id ? $d->ai_log_main_id : 0;
+			$a = $d->aid ? $d->aid : 0;
+			$i = $d->iid ? $d->iid : 0;
+			
+			$l = "\n>> ";
+			
+			$l .= sprintf("%-7d | ", $d->getPrimaryKey());
+			
+			if( $m ) {
+				$d->logtime /= 1000000;	// usec->sec
+				$d->logtime += $d->parent->start_time;
+			}
+			$l .= sprintf("%-26s | ", $d->getLogTime());
+			
+			$l .= sprintf("%-10s | ", strtoupper($d->level));
+			
+			$l .= "M$m:A$a:I$i | ";
+			
+			$l .= $d->category;
+			
+			$l .= "\n  - " . implode("\n  - ", explode("\n", $d->msg));
+			
+			fwrite($file, $l);
+		}
+		
+		fwrite($file,"\n\n");
+		return fclose($file);
+	}
+	
+	public function deleteFromDb( $attr, $id ) {
+		if( strtolower($attr) == 'album' ) {
+			$attr = 'aid';
+		} else {
+			$attr = 'iid';
+		}
+		
+		$crit = new CDbCriteria();
+		$crit->compare($attr, "=$id");
+		$rowNum = AiLogSub::model()->count($crit);
+		$delNum = AiLogSub::model()->deleteAll($crit);
+		
+		return ( $rowNum - $delNum ) ? false : true;
+		return false;
 	}
 }

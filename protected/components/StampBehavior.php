@@ -6,9 +6,7 @@ class StampBehavior extends CActiveRecordBehavior {
 		if( $this->owner->isNewRecord ) {
 			$stamp = new Stamp;
 			if( $stamp->save() ) {
-				if( $this->owner->isNewRecord ) {
-					$this->owner->stamp_id = $stamp->stamp_id;
-				}
+				$this->owner->stamp_id = $stamp->stamp_id;
 			} else {
 				$event->isValid = false;
 			}

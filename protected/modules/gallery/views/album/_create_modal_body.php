@@ -38,11 +38,17 @@
 </fieldset>
 
 <?php
-	$this->renderPartial(
-		'_create_modal_submit',
-		array(),
-		false,		// echo
-		false	// postProcess
+	$this->widget(
+		'bootstrap.widgets.TbButton',
+		array(
+			'buttonType' => 'ajaxSubmit',
+			'type'		=> 'primary',
+			'label'		=> 'Létrehoz',
+			'url'		=> Yii::app()->createUrl('gallery/album/createModal'),
+			'ajaxOptions' => array(
+				'update' => '#modcont'
+			)
+		)
 	);
 ?>
 
