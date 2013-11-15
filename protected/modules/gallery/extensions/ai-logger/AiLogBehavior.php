@@ -105,8 +105,6 @@ class AiLogger {
 	}
 	
 	public function log($msg, $level, $category, $aid, $iid = 0) {
-		if( $this->_MainId )
-			$msg = 'T' . (int)( (microtime(true) - (int)($this->_startTime))*1000000) . ':';
 		$msg = "M" . $this->_MainId . ":A$aid:I$iid:" . $msg;
 		Yii::log($msg, $level, $category);
 	}

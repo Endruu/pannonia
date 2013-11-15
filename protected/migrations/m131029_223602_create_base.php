@@ -18,7 +18,7 @@ class m131029_223602_create_base extends CDbMigration
 		//Create table for ai_log_main
 		$this->createTable("ai_log_main", array(
 			"ai_log_main_id" => "pk",
-			"start_time"     => "float",
+			"start_time"     => "int(11)",
 			"duration"       => "int(11)",
 			"peak_memory"    => "int(11)",
 			"user_id"        => "int(11)",
@@ -29,7 +29,7 @@ class m131029_223602_create_base extends CDbMigration
 			"ai_log_sub_id"  => "pk",
 			"level"          => "varchar(128)",
 			"category"       => "varchar(128)",
-			"logtime"        => "float",
+			"logtime"        => "int(11)",
 			"msg"            => "text",
 			"ai_log_main_id" => "int(11)",
 			"iid"            => "int(11)",
