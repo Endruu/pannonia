@@ -40,11 +40,14 @@ class Album extends CActiveRecord
 	public function behaviors()
 	{
 		return array(
-			'StampBehavior'	=> array(
+			'StampBehavior'		=> array(
 				'class'	=> 'application.components.StampBehavior',
 			),
-			'AiLogBehavior'	=> array(
+			'AiLogBehavior'		=> array(
 				'class'	=> 'application.modules.gallery.extensions.ai-logger.AiLogBehavior',
+			),
+			'AiInfoBehavior'	=> array(
+				'class'	=> 'application.modules.gallery.extensions.AiInfoBehavior',
 			),
 		);
 	}

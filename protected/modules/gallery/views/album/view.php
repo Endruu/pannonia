@@ -17,7 +17,7 @@ $this->menu=array(
 ?>
 
 <h1>View Album #<?php echo $model->album_id; ?></h1>
-
+<?php echo date("Y-m-d H:i:s", microtime(true)); ?>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(

@@ -20,5 +20,5 @@ $this->menu=array(
 )); ?>
 
 <div id="create-album-ajax">
-	<?php $this->renderPartial("_create_ajax", array('model' => new Album)); ?>
+	<?php //$this->renderPartial("_create_ajax", array('model' => new Album)); ?>
 </div>
