@@ -1,10 +1,10 @@
 <?php
 
 class AiLogBehavior extends CActiveRecordBehavior {
-	private $_aiLogger = null;
+	private static $_aiLogger = null;
 
-	public function startAiLog() {
-		$this->getAiLogger()->start();
+	public function startAiLog($msg = null) {
+		$this->getAiLogger()->start($msg);
 	}
 	
 	public function stopAiLog() {
@@ -45,9 +45,9 @@ class AiLogBehavior extends CActiveRecordBehavior {
 	}
 	
 	public function getAiLogger() {
-		if( $this->_aiLogger === null )
-			$this->_aiLogger = new AiLogger();
-		return $this->_aiLogger;
+		if( self::$_aiLogger === null )
+			self::$_aiLogger = new AiLogger();
+		return self::$_aiLogger;
 	}
 	
 	public function saveState() {
@@ -71,7 +71,7 @@ class AiLogger {
 	private $_aiMain	= null;
 	private $_MainId	= 0;
 	
-	public function start() {
+	public function start($msg = null) {
 		if( $this->_aiMain === null ) {
 			
 			$this->_startTime = microtime(true);
@@ -80,9 +80,14 @@ class AiLogger {
 			$aiMain->start_time	= (int)$this->_startTime;
 			$aiMain->user_id	= 1;
 			if($aiMain->save()) {
-				$this->_MainId = $aiMain->ai_log_main_id;
+				$this->_MainId = $aiMain->getPrimaryKey();
 			}
+			
 			$this->_aiMain = $aiMain;
+			
+			if($msg) {
+				$this->owner->aiInfo($msg, 'StartLogger');
+			}
 			
 		} else {
 			Yii::log("start() called before stop()", "ERROR", "AiLogBehavior");

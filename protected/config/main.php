@@ -86,7 +86,7 @@ return array(
 				
 				array(
 					'class'		=> 'CWebLogRoute',
-					'enabled'	=> true,
+					'enabled'	=> false,
 				),
 				
 			),

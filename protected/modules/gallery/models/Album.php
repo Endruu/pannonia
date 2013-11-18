@@ -79,7 +79,8 @@ class Album extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'stamp' => array(self::BELONGS_TO, 'Stamp', 'stamp_id'),
-			'pictures' => array(self::HAS_MANY, 'Picture', 'album_id'),
+			'aiLogSubs' => array(self::HAS_MANY, 'AiLogSub', 'aid'),
+			'information' => array(self::BELONGS_TO, 'AiInfo', 'ai_info_id'),
 		);
 	}
 
@@ -265,6 +266,12 @@ class Album extends CActiveRecord
 		}
 		
 		$this->fullPath = Yii::app()->getModule('gallery')->albumPath . $this->dirName . '/';
+	}
+	
+	public function getDirName() {
+		if( !$this->dirName )
+			$this->setPath();
+		return $this->dirName;
 	}
 	
 	protected function afterFind()

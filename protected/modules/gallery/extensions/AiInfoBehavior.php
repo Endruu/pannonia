@@ -28,16 +28,16 @@ class AiInfoBehavior extends CActiveRecordBehavior {
 		
 		switch( $state ) {
 			case 'valid'	:
-				$crit->condition = 'lectored_at IS NOT NULL AND deleted IS NULL';
+				$crit->condition = 'stamp.lectored_at IS NOT NULL AND t.deleted IS NULL';
 				break;
 			case 'deleted'	:
-				$crit->condition = 'lectored_at IS NOT NULL AND deleted IS NOT NULL';
+				$crit->condition = 'stamp.lectored_at IS NOT NULL AND t.deleted IS NOT NULL';
 				break;
 			case 'draft'	:
-				$crit->condition = 'lectored_at IS NULL AND deleted IS NULL';
+				$crit->condition = 'stamp.lectored_at IS NULL AND t.deleted IS NULL';
 				break;
 			case 'temporary':
-				$crit->condition = 'lectored_at IS NULL AND deleted IS NOT NULL';
+				$crit->condition = 'stamp.lectored_at IS NULL AND t.deleted IS NOT NULL';
 				break;
 		}
 		
@@ -47,5 +47,16 @@ class AiInfoBehavior extends CActiveRecordBehavior {
 
 	public function isDeleted() {
 		return $this->owner->deleted ? true : false;
+	}
+	
+	public function getDate($full = false) {
+		if( $this->owner->ai_info_id && $this->owner->aiInfo->take_time ) {
+			return $full ? $this->owner->aiInfo->take_time : mb_substr($this->owner->aiInfo->take_time, 0, 10);
+		}
+		return '';
+	}
+	
+	public function isPicture() {
+		return true;
 	}
 }
