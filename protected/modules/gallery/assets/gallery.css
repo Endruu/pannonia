@@ -1,0 +1,85 @@
+.list-view {
+	padding:			0;
+}
+
+.Image-Gallery-Container {
+	position:			fixed;
+	width:				100%;
+	height:				100%;
+}
+
+.Image-Viewer-Container {
+	top:				-60px;
+	position:			fixed;
+	width:				100%;
+	height:				100%;
+	background-color:	rgba(112,112,112,0.5);
+	z-index:			150;
+	display:			none;
+}
+
+.Image-List-Container {
+	width:				100%;
+}
+
+.Image-Thumbnail-MainContainer {
+	width:				512px;
+	height:				384px;
+	float:				left;
+}
+
+.Image-Selected {
+	/*background-image: url('logo.png');
+	background-position: right top;
+	background-repeat: no-repeat;*/
+}
+
+.Image-Deselected {
+	background-color:	rgba(112,112,112,0.5);
+}
+
+.Image-Hover-Layer {
+	background-color:	rgba(0,0,0,0.3);
+	width:				100%;
+	height:				100%;
+	position:			relative;
+	z-index:			10;
+}
+
+.Image-Hover-Layer:hover {
+	background-color:	transparent;
+
+}
+
+.Image-Hover-Leaving {
+	display: none;
+	background-color:	rgba(0,0,0,0.3);
+	width:				100%;
+	height:				100%;
+	position:			relative;
+	z-index:			10;
+}
+
+.Image-Select-Layer {
+	width:				100%;
+	height:				100%;
+	position:			relative;
+	top:				-100%;
+	z-index:			5;
+}
+
+.Image-Info-Container, .Image-SourcePath, .summary {
+	display:			none;
+}
+
+.Image-Thumbnail-Container {
+	width:				100%;
+	height:				100%;
+	position:			relative;
+	top:				-200%;
+	z-index:			0;
+}
+
+.Image-Checkbox-Hide {
+	display:			none;
+}
