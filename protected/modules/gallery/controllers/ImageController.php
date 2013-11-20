@@ -140,9 +140,13 @@ class ImageController extends Controller
 		$am->publish($assets);
 		$assets = $am->getPublishedUrl($assets) . '/';
 		
+		
+		Yii::app()->clientScript->registerCssFile( $assets . 'css/supersized.css');
+		Yii::app()->clientScript->registerCssFile( $assets . 'css/supersized.theme.css');
 		Yii::app()->clientScript->registerCssFile( $assets . 'css/gallery.css');
 		Yii::app()->clientScript->registerScriptFile( $assets . 'js/ThumbScripts.js', CClientScript::POS_HEAD);
 		Yii::app()->clientScript->registerScriptFile( $assets . 'js/supersized.3.2.7.js', CClientScript::POS_HEAD);
+		Yii::app()->clientScript->registerScriptFile( $assets . 'js/supersized.theme.js', CClientScript::POS_HEAD);
 		
 		
 		$dataProvider = Image::model()->getForIndex();

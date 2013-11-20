@@ -60,7 +60,7 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 		if( !$this->initVars() )
 			$this->owner->aiError("Init failed!", 'Thumb.GetThumb');
 		if($url)
-			return Yii::app()->getBaseUrl() .'/'. substr($this->_thumbPath . $this->_thumb, strlen(Yii::getPathOfAlias('webroot')));
+			return Yii::app()->getBaseUrl() . substr($this->_thumbPath . $this->_thumb, strlen(Yii::getPathOfAlias('webroot')));
 		return $this->_thumbPath . $this->_thumb;
 	}
 	
@@ -69,7 +69,7 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 			$this->owner->aiError("Init failed!", 'Thumb.GetImage');
 		
 		if($url)
-			return Yii::app()->getBaseUrl() .'/'. substr($this->_originPath . $this->_original, strlen(Yii::getPathOfAlias('webroot')));
+			return Yii::app()->getBaseUrl() . substr($this->_originPath . $this->_original, strlen(Yii::getPathOfAlias('webroot')));
 		return $this->_originPath . $this->_original;
 	}
 	

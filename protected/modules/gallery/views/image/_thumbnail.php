@@ -3,7 +3,7 @@
 	<div class="Image-Hover-Layer"></div>
 	<div class="Image-Hover-Leaving"></div>
 	<div class="Image-Select-Layer">
-		<input type="checkbox" name="Image-Select-Id" class="Image-Select-Checkbox Image-Checkbox-Hide" value=<?php $data->image_id; ?>>
+		<input type="checkbox" name="Image-Select-Id" class="Image-Select-Checkbox Image-Checkbox-Hide" value="<?php echo $data->image_id; ?>">
 	</div>
 
 	<div class="Image-Thumbnail-Container">

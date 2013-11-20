@@ -16,6 +16,10 @@
 </div>
 
 <div class="Image-Viewer-Container">
+	<!--Arrow Navigation-->
+	<a id="prevslide" class="load-item"></a>
+	<a id="nextslide" class="load-item"></a>
 </div>
 
-<?php echo CHtml::script("var ts = new ThumbScripts({width: $thumbWidth, height: $thumbHeight}); ts.afterLoad();"); ?>
+
+<?php echo CHtml::script("initTS({width: $thumbWidth, height: $thumbHeight});"); ?>
