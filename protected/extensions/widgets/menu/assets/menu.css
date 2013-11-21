@@ -1,0 +1,71 @@
+.MainNavigation-Container {
+	height:					60px;
+	width:					100%;
+	/*position:				fixed;*/
+	top:					0;
+	left:					0;
+	padding-left:			20px;
+	padding-right:			20px;
+	background-color:		#FCFCFC;
+	box-shadow:				0px 2px 5px rgba(0,0,0,0.1);
+	z-index:				99;
+}
+
+.MainNavigation-Container-Placeholder {
+	height:					60px;
+	width:					100%;
+	display:				none;
+}
+
+.MainNavigation-Button {
+	/*position:				fixed;*/
+	display:				inline-block;
+	font-weight:			550;
+	font-size:				15px;
+	float:					left;
+	padding:				20px;
+	padding-right:			0px;
+	color:					black;
+	font-family:			'open_sansregular';
+	text-decoration:		none;
+	text-align:				center;
+	text-transform:			uppercase;
+}
+
+.MainNavigation-Button:hover {
+	color:					rgb(76,104,52);/*rgb(79,75,99);*/
+	text-shadow:			0px 0px 2px rgba(76,104,52,0.5);
+	text-decoration:		none;
+}
+
+.MainNavigation-Logo {
+	width:					60px;
+	height:					60px;
+	float:					left;
+	z-index:				100;
+}
+
+.MainNavigation-Logo img {
+	border:					0;
+	margin:					10px;
+}
+
+.MainNavigation-Logo-Fix {
+	display:				none;
+	position:				fixed;
+	top:					5px;
+	left:					25px;
+	width:					50px;
+	height:					50px;
+	text-decoration:		none;
+	z-index:				1;
+	box-shadow:				0px 2px 5px rgba(0,0,0,0.2);
+	-webkit-border-radius:	5px;
+	-moz-border-radius:		5px;
+	border-radius:			5px;
+}
+
+.MainNavigation-Logo-Fix img {
+	border:					0;
+	margin:					5px;
+}

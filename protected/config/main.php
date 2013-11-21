@@ -92,6 +92,19 @@ return array(
 			),
 		),
 		
+		'clientScript'=>array(
+            'packages'=>array(
+                'jquery'=>array(
+                    'baseUrl'=>'//ajax.googleapis.com/ajax/libs/jquery/2.0.3/',
+                    'js'=>array('jquery.min.js'),
+                ),
+                'jquery.ui'=>array(
+                    'baseUrl'=>'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/',
+                    'js'=>array('jquery-ui.min.js'),
+                ),
+            ),
+        ),
+		
 		'bootstrap' => array(
 			'class' => 'ext.yii-booster.components.Bootstrap',
 		),

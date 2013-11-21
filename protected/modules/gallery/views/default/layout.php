@@ -25,19 +25,24 @@
 
 <body>
 
-	<div class="MainNavigation-Container">
-		<div class="CenterMaxWidth CenterMinWidth">
-			<a href="uj.html" class="MainNavigation-Logo">
-				<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/logo_little.png" />
-			</a>
-			<a href="uj.html" class="MainNavigation-Button">Galéria</a>
-			<a href="uj.html#Main-Groups" class="MainNavigation-Button">Csoportok</a>
-			<a href="uj.html#Main-Groups" class="MainNavigation-Button">Kapcsolat</a>
-		</div>
-	</div>
+	<?php
+		$this->widget('ext.widgets.menu.MenuWidget', array(
+			'mainPage'		=> Yii::app()->getHomeUrl(),
+			'navigation'	=> array(
+				'Galéria'	=> '#',
+				'Kapcsolat'	=> '#',
+				'Csoportok'	=> '#',
+			),
+			'options'		=> array(
+				'above'	=> 100,
+				'below'	=> 200
+			),
+			'forceAssets'	=> true,
+		));
+	?>
 
 	<div class="MainContainer"></div>
-		<?php echo $content; ?>
+	<?php echo $content; ?>
 	
 	
 </body>
