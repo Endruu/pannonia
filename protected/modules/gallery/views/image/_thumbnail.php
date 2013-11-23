@@ -1,4 +1,4 @@
-<div class="Image-Thumbnail-MainContainer" id="img-thumb-<?php $data->image_id; ?>">
+<div class="Image-Thumbnail-MainContainer" id="img-thumb-<?php echo $data->image_id; ?>">
 
 	<div class="Image-Hover-Layer"></div>
 	<div class="Image-Hover-Leaving"></div>
@@ -14,7 +14,7 @@
 	<div class="Image-Info-Container">
 		<h2 class="Image-Name"><?php echo CHtml::encode($data->name); ?></h2>
 		<?php if($data->public == false) echo '<span class="Image-Private"></span>'; ?>
-		<h3 class="Image-Album"><?php echo CHtml::encode($data->album->name); ?></h3>	//js modal info
+		<h3 class="Image-Album"><?php echo CHtml::encode($data->album->name); ?></h3>	<!--js modal info -->
 		<?php
 			if( $data->ai_info_id ) {
 				if( $data->aiInfo->take_author )

@@ -150,6 +150,7 @@ class ImageController extends Controller
 		
 		
 		$dataProvider = Image::model()->getForIndex();
+		$dataProvider->pagination = false;
 		$this->render('list',array(
 			'dataProvider'	=> $dataProvider,
 			'thumbWidth'	=> $module->thumbWidth,

@@ -67,8 +67,6 @@ class Image extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('public', 'required'),
-			array('public', 'numerical', 'integerOnly'=>true),
 			array('name, original_name', 'length', 'max'=>120),
 			array('extension', 'length', 'max'=>3),
 			// The following rule is used by search().

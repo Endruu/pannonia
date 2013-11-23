@@ -16,8 +16,8 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 	private	$_original		= '';
 	private	$_delete		= '';
 	
-	private function initVars() {
-		if( !$this->_thumb ) {
+	private function initVars($force = false) {
+		if( !$this->_thumb || $force ) {
 			$this->module		= Yii::app()->getModule('gallery');
 			$this->albumPath	= $this->module->albumPath; 
 			$this->thumbWidth	= $this->module->thumbWidth;
@@ -74,6 +74,7 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 	}
 	
 	public function createThumb() {
+		$this->owner->aiInfo('Trying to create thumbnail!', 'Thumb.Create');
 		if( $this->initVars() ) {
 			try {
 				Yii::getLogger()->flush(true);	// just in case if memory is exceeded while resizing
@@ -119,10 +120,36 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 	public function afterDelete($event)
 	{
 		$this->deleteThumb();
-	} 
-	
-	/*public function afterSave($event)
-	{
-		$this->createThumb();
-	} */
+	}
+
+	public function afterSave($event) {
+		if($this->owner->getIsNewRecord()) {
+			if($this->initVars(true)) {
+				$oldname = $this->_originPath . $this->owner->original_name;
+				$newname = $this->_originPath . $this->_original;
+				if( rename($oldname, $newname)) {
+					$this->owner->aiInfo($this->owner->original_name . " renamed to $this->_original", 'Thumb.AfterSave');
+				} else {
+					$this->owner->aiError("Failed to rename " . $this->owner->original_name . " to $this->_original!", 'Thumb.AfterSave');
+				}
+			} else {
+				$this->owner->aiError("Init failed!", 'Thumb.AfterSave');
+			}
+		}
+	}
+
+	public function beforeSave($event) {
+		if($this->owner->getIsNewRecord()) {
+			if(!isset($this->owner->public)) $this->owner->public = false;
+			if( preg_match( "/.*\.([jpegnif]{3,4})/", strtolower($this->owner->original_name), $m ) ) {	// check picture type
+				$ext = $m[1];
+				if($ext == 'jpeg') $ext = 'jpg';
+				$this->owner->extension = $ext;
+			} else {
+				$this->owner->aiError("Failed to determine extension of: $this->owner->original_name" , 'Thumb.BeforeSave');
+				$event->isValid = false;
+			}
+		}
+	}
+
 }

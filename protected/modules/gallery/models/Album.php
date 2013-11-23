@@ -353,4 +353,45 @@ class Album extends CActiveRecord
 		return false;
 	}
 	
+	public function scanDirectory($type = 'pic', $options = null, $createThumbs = false) {
+		$module = Yii::app()->getModule('gallery');
+		$srcDir = $this->fullPath . ($type == 'pic' ? $module->albumMap['pictures']['src'] : $module->albumMap['videos']['src']);
+		$lastImage = Yii::app()->db->createCommand()->select('image_id')->from('image')->order('image_id DESC')->limit(1)->queryScalar();//getLastInsertID(Image::model()->getMetaData()->tableSchema);
+		
+		$this->aiInfo("Scanning directory $srcDir!", "ScanDirectory");
+		
+		$files = scandir($srcDir);
+		$i = 1;
+		foreach( $files as $file ) {
+			if( !is_file($srcDir.$file) ) continue;
+			if( preg_match( "/([0-9]{8})\.([jpgnifJPGNIF]{3})/", $file, $m ) ) {	// check picture type
+				$id = (int)$m[1];
+				$ext = strtolower($m[2]);
+				$this->aiWarn("$id - $ext - $lastImage", "ScanDirectory");
+				if( $id <= $lastImage ) {	// possible existing image
+					if(Image::model()->exists("image_id=$id AND extension='$ext'")) {
+						$this->aiWarn("Existing file: $file!", "ScanDirectory");
+						continue;
+					}
+				}
+			}
+			
+			$this->aiInfo("Adding new image!", "ScanDirectory");
+			$img = new Image();
+			$img->original_name = $file;
+			$img->album_id = $this->album_id;
+			if(is_array($options)) {
+				if(array_key_exists('public', $options))	$img->public = $options->public;
+				if(array_key_exists('name', $options))		$img->name = $options->name . $i++ . '.';
+				//if(array_key_exists('info', $options))		$img->createInfo($options->info);
+			}
+			if( $img->save() ) {
+				if($createThumbs) $img->createThumb();
+			} else {
+				
+				//$this->aiError("Error while saving image: " . implode("\n", $img->getErrors()), "ScanDirectory");
+			}
+		}
+	}
+	
 }
