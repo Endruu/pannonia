@@ -4,8 +4,13 @@ class GalleryModule extends CWebModule
 {
 	public $albumPath	= 'images/';
 	public $albumMap	= null;
-	public $thumbWidth	= 328;
-	public $thumbHeight	= 216;
+	public $thumbWidth	= 320;
+	public $thumbHeight	= 211;
+	public $phpThumbOptions = array(
+		'resizeUp'				=> true,
+		'jpegQuality'			=> 85,
+		'correctPermissions'	=> true, 
+	);
 
 	public function init()
 	{

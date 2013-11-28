@@ -9,6 +9,7 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 	public	$albumPath		= '';
 	public	$thumbWidth		= '';
 	public	$thumbHeight	= '';
+	public	$phpThumbOptions = array();
 	
 	private	$_thumbPath		= '';
 	private	$_originPath	= '';
@@ -22,7 +23,7 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 			$this->albumPath	= $this->module->albumPath; 
 			$this->thumbWidth	= $this->module->thumbWidth;
 			$this->thumbHeight	= $this->module->thumbHeight;
-		
+			$this->phpThumbOptions	= $this->module->phpThumbOptions;
 		
 			if( !($this->albumPath && $this->thumbWidth && $this->thumbHeight) ) {
 				$this->owner->aiError("Missing default parameter(s)!", 'Thumb.Init');
@@ -78,8 +79,8 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 		if( $this->initVars() ) {
 			try {
 				Yii::getLogger()->flush(true);	// just in case if memory is exceeded while resizing
-				$thumb = PhpThumbFactory::create($this->_originPath . $this->_original);
-				$thumb->adaptiveResize($this->thumbWidth, $this->thumbHeight)->save($this->_thumbPath . $this->_thumb, 'jpg');
+				$thumb = PhpThumbFactory::create($this->_originPath . $this->_original, $this->phpThumbOptions);
+				$thumb->adaptiveResize($this->thumbWidth+2, $this->thumbHeight+2)->save($this->_thumbPath . $this->_thumb, 'jpg');
 				$this->owner->aiInfo('Thumbnail created!', 'Thumb.Create');
 			}
 			catch (Exception $e) {
