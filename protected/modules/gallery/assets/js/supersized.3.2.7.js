@@ -10,6 +10,8 @@
 	
 */
 
+var ssBuilt	= false;
+
 (function($){
 
 	/* Place Supersized Elements
@@ -39,7 +41,15 @@
         	$.supersized.vars.options = $.extend({},$.supersized.defaultOptions, $.supersized.themeOptions, options);
             base.options = $.supersized.vars.options;
             
-            base._build();
+			var tmp = base.options.transition;
+			base.options.transition = 'none';
+			if( ssBuilt ) {
+				api.goTo(base.options.start_slide);
+			} else {
+				base._build();
+				ssBuilt = true;
+			}
+			base.options.transition = tmp;
         };
         
         
@@ -703,6 +713,7 @@
 		----------------------------*/
     	base.goTo = function(targetSlide){
 			if (vars.in_animation || !api.options.slideshow) return false;		// Abort if currently animating
+			if( targetSlide == vars.current_slide ) return true;
 			
 			var totalSlides = base.options.slides.length;
 			

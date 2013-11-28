@@ -392,6 +392,26 @@ class Album extends CActiveRecord
 				//$this->aiError("Error while saving image: " . implode("\n", $img->getErrors()), "ScanDirectory");
 			}
 		}
+		
 	}
 	
+	public function getImages($public = true) {
+		$img = Image::model();
+		
+		if( $public )
+			$img->getDbCriteria()->mergeWith(array('condition' => 't.public=1'));
+			
+		$img->with('information')->ifState('valid');
+		
+		return new CActiveDataProvider('Image', array( 'criteria' => $img->getDbCriteria()));
+	}
+	
+	public static function getAlbums($public = true, $sort = 'time', $order = 'DESC') {
+		if( $public )
+			$this->getDbCriteria()->mergeWith(array('condition' => 't.public=1'));
+			
+		$this->with('information')->ifState('valid')->order("$sort $order");
+		
+		return new CActiveDataProvider('Album', array( 'criteria' => $this->getDbCriteria()));
+	}
 }

@@ -1,4 +1,4 @@
-<div class="Image-Thumbnail-MainContainer" id="img-thumb-<?php echo $data->image_id; ?>">
+<div class="Image-Thumbnail-MainContainer" id="img-thumb-<?php echo $index; ?>">
 
 	<div class="Image-Hover-Layer"></div>
 	<div class="Image-Hover-Leaving"></div>
