@@ -38,10 +38,10 @@
 				'below'	=> 200
 			),
 			'forceAssets'	=> true,
+			'fixed'			=> true,
 		));
 	?>
 
-	<div class="MainContainer"></div>
 	<?php echo $content; ?>
 	
 	

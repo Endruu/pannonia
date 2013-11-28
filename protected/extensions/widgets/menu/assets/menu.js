@@ -8,7 +8,8 @@ function activateMenu(options) {
 		effect_options	: { direction: 'up' },
 		below			: 90,
 		above			: 65,
-		delay			: 200
+		delay			: 200,
+		fixed			: false
 	}
 
 	this.registerEvents = function() {
@@ -45,6 +46,11 @@ function activateMenu(options) {
 	
 	}
 	
+	this.fixMenu = function() {
+		$('.MainNavigation-Container').css({position: 'fixed'});
+		$('.MainNavigation-Container-Placeholder').show();
+	}
+	
 	this.initOptions = function(options) {
 		var M = defaultOptions;
 		for( o in options ) {
@@ -56,7 +62,11 @@ function activateMenu(options) {
 	
 	if( Menu === null ) {
 		Menu = this.initOptions(options);
-		this.registerEvents();
+		if( Menu['fixed'] ) {
+			this.fixMenu();
+		} else {
+			this.registerEvents();
+		}
 	}
 	
 }

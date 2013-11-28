@@ -8,6 +8,7 @@ class MenuWidget extends CWidget
 	public $navigation	= array();
 	public $options		= array();
 	public $forceAssets	= false;
+	public $fixed		= false;
 
     public function init() {
 	
@@ -30,6 +31,7 @@ class MenuWidget extends CWidget
 		foreach( $this->options as $opt => $val ) {
 			$o2[] = "$opt:\t$val";
 		}
+		$o2[] = "fixed:\t$this->fixed";
 		return implode($o2, ",\n");
 	}
 
