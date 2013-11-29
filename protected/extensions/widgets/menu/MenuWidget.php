@@ -14,6 +14,7 @@ class MenuWidget extends CWidget
 	
         if( $this->assetPath === null ) {
             $this->assetPath = Yii::app()->getAssetManager()->publish(dirname(__FILE__).DIRECTORY_SEPARATOR.'assets', true, -1, $this->forceAssets);
+			$this->options['fixed'] = $this->fixed;
 			
 			$cs = Yii::app()->clientScript;
 			$cs->registerCssFile( $this->assetPath . '/menu.css' );
@@ -29,9 +30,16 @@ class MenuWidget extends CWidget
 	public function jsOptions() {
 		$o2 = array();
 		foreach( $this->options as $opt => $val ) {
-			$o2[] = "$opt:\t$val";
+			if( $val === true ) {
+				$o2[] = "$opt:\ttrue";
+			} else if( $val === false ) {
+				$o2[] = "$opt:\tfalse";
+			} else if( $val === null ) {
+				$o2[] = "$opt:\tnull";
+			} else {
+				$o2[] = "$opt:\t$val";
+			}
 		}
-		$o2[] = "fixed:\t$this->fixed";
 		return implode($o2, ",\n");
 	}
 
