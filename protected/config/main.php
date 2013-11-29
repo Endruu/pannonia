@@ -72,7 +72,7 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'trace, error, warning',
 				),
 				array(
 					'class'			=> 'application.modules.gallery.extensions.ai-logger.AiLogRoute',
@@ -114,6 +114,11 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		'adminEmail'	=>	'webmaster@example.com',
+		'navigation'	=> array(
+			'Galéria'	=> array('/gallery/gallery/index'),
+			'Kapcsolat'	=> '#',
+			'Csoportok'	=> '#',
+		),
 	),
 );

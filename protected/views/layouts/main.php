@@ -23,11 +23,7 @@
 <?php
 	$this->widget('ext.widgets.menu.MenuWidget', array(
 		'mainPage'		=> Yii::app()->getHomeUrl(),
-		'navigation'	=> array(
-			'Galéria'	=> '#',
-			'Kapcsolat'	=> '#',
-			'Csoportok'	=> '#',
-		),
+		'navigation'	=> Yii::app()->params['navigation'],
 		'options'		=> array(
 			'above'	=> 100,
 			'below'	=> 200
