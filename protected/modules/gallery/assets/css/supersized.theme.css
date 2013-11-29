@@ -22,11 +22,12 @@
 				#play-button{ float:left; margin-top:1px;border-right:1px solid #333; background:url('../img/bg-hover.png') repeat-x 0 44px; }
 					#play-button:hover{ background-position:0 1px; cursor:pointer; }
 				
-				#prevslide, #nextslide{ position:absolute; height:43px; width:43px; top:50%; margin-top:-21px; opacity:0.6; }
+				#prevslide, #nextslide, #close{ position:absolute; height:43px; width:43px; top:50%; margin-top:-21px; opacity:0.6; }
 					#prevslide{ left:10px; background:url('../img/back.png'); }
 					#nextslide{ right:10px; background:url('../img/forward.png'); }
-						#prevslide:active, #nextslide:active{ margin-top:-19px; }
-						#prevslide:hover, #nextslide:hover{ cursor:pointer; }
+					#close{ right:10px; top:31px; background:url('../img/close.png'); }
+						#prevslide:active, #nextslide:active, #close:active{ margin-top:-19px; }
+						#prevslide:hover, #nextslide:hover, #close:active{ cursor:pointer; }
 				
 				ul#slide-list{ padding:15px 0; float:left; position:absolute; left:50%; }
 					ul#slide-list li{ list-style:none; width:12px; height:12px; float:left; margin:0 5px 0 0; }

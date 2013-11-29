@@ -17,7 +17,7 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 	private	$_original		= '';
 	private	$_delete		= '';
 	
-	private function initVars($force = false) {
+	private function initVars($force = false, $albumDir = false) {
 		if( !$this->_thumb || $force ) {
 			$this->module		= Yii::app()->getModule('gallery');
 			$this->albumPath	= $this->module->albumPath; 
@@ -29,8 +29,11 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 				$this->owner->aiError("Missing default parameter(s)!", 'Thumb.Init');
 				return false;
 			}
-		
-			$this->_thumbPath	= $this->_originPath	= $this->albumPath . $this->owner->album->getDirName() .'/';
+
+			if(!$albumDir)
+				$albumDir = $this->owner->album->getDirName();
+
+			$this->_thumbPath	= $this->_originPath	= $this->albumPath . $albumDir .'/';
 			$this->_thumb		= $this->_original		= sprintf("%08d.", $this->owner->image_id );
 			
 			if( $this->module->albumMap['deleted'] ) {
@@ -57,20 +60,23 @@ class ThumbnailBehavior extends CActiveRecordBehavior {
 		return true;
 	}
 	
-	public function getThumbnail($url = false) {
-		if( !$this->initVars() )
+	public function getThumbnail($url = false, $path = false) {
+		if( !$this->initVars(false, $path) )
 			$this->owner->aiError("Init failed!", 'Thumb.GetThumb');
-		if($url)
+
+		if( $url )
 			return Yii::app()->getBaseUrl() . substr($this->_thumbPath . $this->_thumb, strlen(Yii::getPathOfAlias('webroot')));
+
 		return $this->_thumbPath . $this->_thumb;
 	}
 	
-	public function getImage($url = false) {
+	public function getImage($url = false, $path = false) {
 		if( !$this->initVars() )
 			$this->owner->aiError("Init failed!", 'Thumb.GetImage');
-		
+
 		if($url)
 			return Yii::app()->getBaseUrl() . substr($this->_originPath . $this->_original, strlen(Yii::getPathOfAlias('webroot')));
+
 		return $this->_originPath . $this->_original;
 	}
 	

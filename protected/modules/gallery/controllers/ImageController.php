@@ -28,7 +28,7 @@ class ImageController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','list'),
+				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -125,36 +125,6 @@ class ImageController extends Controller
 		$dataProvider=new CActiveDataProvider('Image');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	public function actionList()
-	{
-		$this->layout = '/default/layout';
-		
-		$module = $this->getModule();
-		
-		$am = new CAssetManager();
-		$am->forceCopy = true;	// dev
-		$assets = Yii::getPathOfAlias('webroot') . '/protected/modules/gallery/assets/';
-		$am->publish($assets);
-		$assets = $am->getPublishedUrl($assets) . '/';
-		
-		
-		Yii::app()->clientScript->registerCssFile( $assets . 'css/supersized.css');
-		Yii::app()->clientScript->registerCssFile( $assets . 'css/supersized.theme.css');
-		Yii::app()->clientScript->registerCssFile( $assets . 'css/gallery.css');
-		Yii::app()->clientScript->registerScriptFile( $assets . 'js/ThumbScripts.js', CClientScript::POS_HEAD);
-		Yii::app()->clientScript->registerScriptFile( $assets . 'js/supersized.3.2.7.js', CClientScript::POS_HEAD);
-		Yii::app()->clientScript->registerScriptFile( $assets . 'js/supersized.theme.js', CClientScript::POS_HEAD);
-		
-		
-		$dataProvider = Image::model()->getForIndex();
-		$dataProvider->pagination = false;
-		$this->render('list',array(
-			'dataProvider'	=> $dataProvider,
-			'thumbWidth'	=> $module->thumbWidth,
-			'thumbHeight'	=> $module->thumbHeight,
 		));
 	}
 	

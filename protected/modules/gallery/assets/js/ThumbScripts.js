@@ -57,7 +57,7 @@ function ThumbScripts( options ) {
 			}
 		}
 
-		$('.Image-List-Container').width($(window).width() - $('.Image-Album-List-Container').width());
+		$('.Image-List-Container').width($(window).width() - $('.Image-Album-List-Container').outerWidth());
 
 		maxSize = Math.round(maxSize);
 		var ratio = $('.Image-Thumbnail-MainContainer').height() / $('.Image-Thumbnail-MainContainer').width();
@@ -140,7 +140,6 @@ function ThumbScripts( options ) {
 		this.setDefaultThumbnailSize();
 		this.registerEvents();
 		this.registerImages();
-
 	}
 	
 	this.init(options);
@@ -150,6 +149,7 @@ function initTS(options) {
 	TS = new ThumbScripts(options);
 	TS.afterLoad();
 	$(window).resize(TS.resizeThumbnails());
+	jQuery("img.lazy").lazy({ enableThrottle: true, throttle: 250 });
 }
 
 function startViewer(start) {
@@ -180,24 +180,26 @@ function startViewer(start) {
 		
 	});
 	
-	$('#supersized').show();
+	$('#supersized').fadeIn(700);
+	if( $('#supersized-loader') )
+		 $('#supersized-loader').remove();
 	
 	$('.Image-Gallery-Container').fadeOut(700);
+	$('.Image-DividerStrip').hide();
 	$('.MainNavigation-Container').fadeOut(700, function() {
 		$('.Image-Viewer-Container').fadeIn(700);
 	});
 	
 	$(document.documentElement).keyup(function (event) {
 		if( event.keyCode == 27 ) {			// ESC
-			if( TS.start !== false ) {
-				stopViewer();
-				TS.start = false;
-			}
+			stopViewer();
 		}
 	});
 }
 
 function stopViewer() {
+	if( TS.start === false ) return;
+	
 	// highlight last
 	var as = $('.activeslide');
 	var last = as.removeClass('activeslide').attr('class').substr(6);
@@ -208,14 +210,18 @@ function stopViewer() {
 	$('#supersized').before('<div id="supersized-loader"></div>');
 	$('.MainNavigation-Container').fadeIn(700);
 	$('.Image-Gallery-Container').fadeIn(700);
+	$('.Image-Gallery-Background').fadeIn(700);
+	
 	scrollToElement(last, 0, -60);
+	
 	$('.Image-Viewer-Container').fadeOut(700, function() {
-		//$('#supersized').html('');
 		$('#supersized').hide().children().removeAttr( 'style' );
 		$('body').css('overflow', 'auto');
-		
+		$('.Image-Gallery-Background').hide();
+		$('.Image-DividerStrip').fadeIn(200);
 	});
 	
+	TS.start = false;
 }
 
 function scrollToElement(selector, time, verticalOffset) {

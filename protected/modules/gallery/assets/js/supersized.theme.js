@@ -32,6 +32,10 @@
 		    $(vars.prev_slide).click(function() {
 		    	api.prevSlide();
 		    });
+			
+			$(vars.close).click(function() {
+		    	stopViewer();
+		    });
 		    
 		    	// Full Opacity on Hover
 		    	if(jQuery.support.opacity){
@@ -73,6 +77,7 @@
 		// General Elements							
 		next_slide			:	'#nextslide',		// Next slide button
 		prev_slide			:	'#prevslide',		// Prev slide button
+		close				:	'#close',
 		
 		slide_caption		:	'#slidecaption',	// Slide caption
 		slide_current		:	'.slidenumber',		// Current slide number

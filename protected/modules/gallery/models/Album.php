@@ -400,18 +400,26 @@ class Album extends CActiveRecord
 		
 		if( $public )
 			$img->getDbCriteria()->mergeWith(array('condition' => 't.public=1'));
-			
+		
+		$img->getDbCriteria()->mergeWith(array('condition' => 't.album_id=' . $this->album_id));
 		$img->with('information')->ifState('valid');
 		
 		return new CActiveDataProvider('Image', array( 'criteria' => $img->getDbCriteria()));
 	}
 	
 	public static function getAlbums($public = true, $sort = 'time', $order = 'DESC') {
-		if( $public )
-			$this->getDbCriteria()->mergeWith(array('condition' => 't.public=1'));
-			
-		$this->with('information')->ifState('valid')->order("$sort $order");
+		$album = self::model();
 		
-		return new CActiveDataProvider('Album', array( 'criteria' => $this->getDbCriteria()));
+		if( $public )
+			$album->getDbCriteria()->mergeWith(array('condition' => 't.public=1'));
+		
+		$album->with('information')->ifState('valid');
+		
+		if($sort == 'time')
+			$sort = 'stamp.created_at';
+			
+		$album->getDbCriteria()->order = "$sort $order";
+		
+		return new CActiveDataProvider('Album', array( 'criteria' => $album->getDbCriteria()));
 	}
 }

@@ -7,14 +7,15 @@
 	</div>
 
 	<div class="Image-Thumbnail-Container">
-		<img class="Image-Thumbnail" src="<?php echo $data->getThumbnail(true); ?>"/>
-		<span class="Image-SourcePath"><?php echo $data->getImage(true); ?></span>
+		<img class="Image-Thumbnail lazy" src="" data-src="<?php echo $data->getThumbnail(true, $albumDir); ?>"/>
+		<noscript><img class="Image-Thumbnail" src="<?php echo $data->getThumbnail(true, $albumDir); ?>"/></noscript>
+		<span class="Image-SourcePath"><?php echo $data->getImage(true, $albumDir); ?></span>
 	</div>
 	
 	<div class="Image-Info-Container">
 		<h2 class="Image-Name"><?php echo CHtml::encode($data->name); ?></h2>
 		<?php if($data->public == false) echo '<span class="Image-Private"></span>'; ?>
-		<h3 class="Image-Album"><?php echo CHtml::encode($data->album->name); ?></h3>	<!--js modal info -->
+		<h3 class="Image-Album"><?php echo CHtml::encode($albumName); ?></h3>	<!--js modal info -->
 		<?php
 			if( $data->ai_info_id ) {
 				if( $data->aiInfo->take_author )

@@ -1,3 +1,9 @@
+body {
+	background-color:	rgb(237,236,228);/*#333;*/
+	/*width:				100%;
+	height:				100%;*/
+}
+
 .list-view {
 	padding:			0;
 }
@@ -6,8 +12,17 @@
 	/*position:			fixed;*/
 	width:				100%;
 	height:				100%;
-	background-color:	rgb(252,252,252);
 	margin:				0;
+}
+
+.Image-Gallery-Background {
+	display:			none;
+	position:			fixed;
+	width:				100%;
+	height:				100%;
+	margin:				0;
+	background-color:	rgb(237,236,228);
+	z-index:			-500;
 }
 
 .Image-Viewer-Container {
@@ -27,22 +42,13 @@
 .Image-List-Container {
 	position:			relative;
 	width:				100%;
-	height:				100%;
+	/*height:				100%;*/
 	left:				300px;
 	overflow-x:			hidden;
 	overflow-y:			hidden;
 	box-sizing:			border-box;
 	-moz-box-sizing:	border-box; /* Firefox */
-}
-
-.Image-Album-List-Container {
-	position:			fixed;
-	width:				300px;
-	height:				100px;
-	top:				60px;
-	background-color:	rgba(112,112,112,0.5);
-	box-sizing:			border-box;
-	-moz-box-sizing:	border-box; /* Firefox */
+	box-shadow:			2px 2px 5px rgba(0,0,0,0.2);
 }
 
 .Image-Thumbnail-MainContainer {
@@ -61,8 +67,8 @@
 	background-color:	rgba(112,112,112,0.5);
 }
 
-.Image-Hover-Layer {
-	background-color:	rgba(0,0,0,0.3);
+.Image-Hover-Layer, .Image-Hover-Leaving {
+	background-color:	rgba(23,12,0, 0.25);/*rgba(30,30,30,0.35);*/
 	width:				100%;
 	height:				100%;
 	position:			relative;
@@ -73,17 +79,12 @@
 	background-color:	transparent;
 }
 
-.LastImage {
-	background-color:	transparent;
-}
-
 .Image-Hover-Leaving {
 	display: none;
-	background-color:	rgba(0,0,0,0.3);
-	width:				100%;
-	height:				100%;
-	position:			relative;
-	z-index:			10;
+}
+
+.LastImage {
+	background-color:	transparent;
 }
 
 .Image-Select-Layer {
@@ -112,4 +113,62 @@
 
 .ClearFix {
 	clear:					both;
+}
+
+.Image-Album-List-Container {
+	position:			fixed;
+	width:				280px;
+	/*height:				100px;*/
+	top:				60px;
+	padding:			10px;
+}
+
+.Image-Album-MainContainer {
+	position:			relative;
+	padding:			5px;
+	background-color:	#333;/*rgb(237,236,228);*/
+	box-shadow:			2px 2px 5px rgba(0,0,0,0.2);
+	/*z-index:			-20;*/
+	margin-bottom:		5px;
+}
+
+.Image-Album-Active {
+	width:				280px;
+}
+
+.Album-Name, .Album-Name:hover {
+	display:			block;
+	font-family:		'Open Sans Condensed'; 
+	font-size:			20px;
+	font-weight:		600;
+	margin:				0;
+	margin-bottom:		15px;
+	color:				rgb(237,236,228);
+	text-decoration:	none;
+	padding:			10px;
+}
+
+.Image-DividerStrip {
+	position:			fixed;
+	left:				300px;
+	width:				200px;
+	height:				100%;
+	z-index:			-1px;
+	background-color:	rgb(237,236,228);
+}
+
+.Image-List-Container .empty {
+	position:			fixed;
+	width:				80%;
+	height:				80%;
+	left:				300px;
+	background-image:	url('../img/logo.png');
+	background-size:	contain;
+	background-repeat:	no-repeat;
+	background-position:center;
+	color:				#333;
+	text-align:			center;
+	margin-top:			15px;
+	font-family:		'Open Sans';
+	font-size:			200%;
 }
