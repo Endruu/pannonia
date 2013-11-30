@@ -32,7 +32,7 @@ class AlbumController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'createAjax'),
+				'actions'=>array('create','update','scan'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -56,6 +56,20 @@ class AlbumController extends Controller
 		));
 	}
 
+	public function actionScan($id, $thumb = false, $type = 'pic', $public = null, $name = null)
+	{
+		$opt = array();
+		if($public !== null) $opt['public']	= $public;
+		if($name !== null) $opt['name']	= $name;
+		
+		$model = $this->loadModel($id);
+		$model->scanDirectory($type, $opt, $public);
+		echo "SCAN FINISHED!<br />";
+		$this->render('view',array(
+			'model'=> $model,
+		));
+	}
+	
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.

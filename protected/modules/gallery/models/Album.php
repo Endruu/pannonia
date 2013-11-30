@@ -381,8 +381,8 @@ class Album extends CActiveRecord
 			$img->original_name = $file;
 			$img->album_id = $this->album_id;
 			if(is_array($options)) {
-				if(array_key_exists('public', $options))	$img->public = $options->public;
-				if(array_key_exists('name', $options))		$img->name = $options->name . $i++ . '.';
+				if(array_key_exists('public', $options))	$img->public = $options['public'];
+				if(array_key_exists('name', $options))		$img->name = $options['name'] . $i++ . '.';
 				//if(array_key_exists('info', $options))		$img->createInfo($options->info);
 			}
 			if( $img->save() ) {
