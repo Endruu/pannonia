@@ -42,8 +42,10 @@ class SiteController extends Controller
 		{
 			if(Yii::app()->request->isAjaxRequest)
 				echo $error['message'];
-			else
+			else {
+				Yii::app()->clientScript->registerCssFile('css/error.css');
 				$this->render('error', $error);
+			}
 		}
 	}
 
