@@ -24,12 +24,12 @@ return array(
 
 	'modules'=>array(
 
-		'gii'=>array(
+		/*'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'enter  the  gii',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
-		),
+		),*/
 		
 		'liveMigration',
 		
@@ -67,7 +67,7 @@ return array(
 		),
 
 		'db'=>array(
-			'connectionString'	=> 'mysql:host=localhost;dbname=pannonia_test',
+			'connectionString'	=> 'mysql:host=localhost;dbname=pannonia',
 			'emulatePrepare'	=> true,
 			'username'			=> 'root',
 			'password'			=> '',
@@ -129,7 +129,7 @@ return array(
 		'navigation'	=> array(
 			'Galéria'	=> array('/gallery/gallery/index'),
 			'Kapcsolat'	=> array('/site/contact'),
-			'Csoportok'	=> '#',
+			//'Csoportok'	=> '#',
 		),
 	),
 );

@@ -27,7 +27,7 @@
 				'above'	=> 100,
 				'below'	=> 200
 			),
-			'forceAssets'	=> true,
+			'forceAssets'	=> false,
 			'fixed'			=> true,
 		));
 	?>
