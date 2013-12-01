@@ -59,6 +59,8 @@ return array(
 					=> '/gallery/gallery/index',
 				'galeria/<album:\d+>'
 					=> '/gallery/gallery/index',
+				'kapcsolat'
+					=> '/site/contact',
 				''
 					=> 'site/index'
 			),
@@ -101,15 +103,15 @@ return array(
 			),
 		),
 		
-		'clientScript'=>array(
-            'packages'=>array(
-                'jquery'=>array(
-                    'baseUrl'=>'//ajax.googleapis.com/ajax/libs/jquery/2.0.3/',
-                    'js'=>array('jquery.min.js'),
+		'clientScript' => array(
+            'packages' => array(
+                'jquery'	=> array(
+                    'baseUrl'	=> '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/',
+                    'js'		=> array('jquery.min.js'),
                 ),
-                'jquery.ui'=>array(
-                    'baseUrl'=>'//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/',
-                    'js'=>array('jquery-ui.min.js'),
+                'jquery.ui'	=> array(
+                    'baseUrl'	=> '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/',
+                    'js'		=> array('jquery-ui.min.js'),
                 ),
             ),
         ),
@@ -123,10 +125,10 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'	=>	'webmaster@example.com',
+		'adminEmail'	=> 'bibok.andor@pannoniafolk.hu',
 		'navigation'	=> array(
 			'Galéria'	=> array('/gallery/gallery/index'),
-			'Kapcsolat'	=> '#',
+			'Kapcsolat'	=> array('/site/contact'),
 			'Csoportok'	=> '#',
 		),
 	),

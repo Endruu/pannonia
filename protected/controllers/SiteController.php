@@ -29,7 +29,7 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		Yii::app()->clientScript->registerCssFile('css/index.css');
+		Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/index.css');
 		$this->render('index');
 	}
 
@@ -43,7 +43,7 @@ class SiteController extends Controller
 			if(Yii::app()->request->isAjaxRequest)
 				echo $error['message'];
 			else {
-				Yii::app()->clientScript->registerCssFile('css/error.css');
+				Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/error.css');
 				$this->render('error', $error);
 			}
 		}
@@ -54,7 +54,63 @@ class SiteController extends Controller
 	 */
 	public function actionContact()
 	{
-		$model=new ContactForm;
+		$people = array(
+			array(
+				'name'	=> 'dr. Czelleng Arnold',
+				'mail'	=> 'czelleng.arnold',
+				'title'	=> 'elnök',
+			),
+			array(
+				'name'	=> 'Szengyel István',
+				'mail'	=> 'szengyel.istvan',
+				'title'	=> 'művészeti vezető',
+			),
+			array(
+				'name'	=> 'Urbán Barbara',
+				'mail'	=> 'urban.barbara',
+				'title'	=> 'titkár',
+			),
+			array(
+				'name'	=> 'Bibók Andor',
+				'mail'	=> 'bibok.andor',
+				'title'	=> 'rendszergazda',
+			),
+			array(
+				'name'	=> 'Kelemen Zsuzsanna',
+				'mail'	=> 'kelemen.zsuzsanna',
+				'title'	=> 'tanár',
+			),
+			array(
+				'name'	=> 'Liska Zsófia',
+				'mail'	=> 'liska.zsofia',
+				'title'	=> 'tanár',
+			),
+			array(
+				'name'	=> 'Máté Móric',
+				'mail'	=> 'mate.moric',
+				'title'	=> 'tanár',
+			),
+			array(
+				'name'	=> 'Szilágyi Zsolt',
+				'mail'	=> 'szilagyi.zsolt',
+				'title'	=> 'tanár',
+			),
+			array(
+				'name'	=> 'Vadász-Bibók Anett',
+				'mail'	=> 'vadasz-bibok.anett',
+				'title'	=> 'tanár',
+			),
+			array(
+				'name'	=> 'Vadász Dániel',
+				'mail'	=> 'vadasz.daniel',
+				'title'	=> 'tanár',
+			),
+		);
+		
+		Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/contact.css');
+		$this->render('contact', array( 'people' => $people ));
+	
+		/*$model=new ContactForm;
 		if(isset($_POST['ContactForm']))
 		{
 			$model->attributes=$_POST['ContactForm'];
@@ -72,7 +128,7 @@ class SiteController extends Controller
 				$this->refresh();
 			}
 		}
-		$this->render('contact',array('model'=>$model));
+		$this->render('contact',array('model'=>$model));*/
 	}
 
 	/**

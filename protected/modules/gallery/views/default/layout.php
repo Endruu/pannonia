@@ -8,9 +8,9 @@
 	<meta name="language" content="en" />
 
 	<link href="//fonts.googleapis.com/css?family=Open+Sans Condensed:300italic,300,700&subset=latin-ext" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="css/fonts/os/sb/stylesheet.css" />
-	<link rel="stylesheet" type="text/css" href="css/fonts/os/reg/stylesheet.css" />
-	<link rel="stylesheet" type="text/css" href="css/fonts/os/li/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="/css/fonts/os/sb/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="/css/fonts/os/reg/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="/css/fonts/os/li/stylesheet.css" />
 	
 
 	

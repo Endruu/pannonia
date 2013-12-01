@@ -5,9 +5,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="en" />
 	
-	<link rel="stylesheet" type="text/css" href="css/fonts/os/sb/stylesheet.css" />
-	<link rel="stylesheet" type="text/css" href="css/fonts/os/reg/stylesheet.css" />
-	<link rel="stylesheet" type="text/css" href="css/fonts/os/li/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/fonts/os/sb/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/fonts/os/reg/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->baseUrl; ?>/css/fonts/os/li/stylesheet.css" />
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
@@ -27,6 +27,9 @@
 ?>
 
 <?php echo $content; ?>
+
+<div class="MainRow-Footer">
+</div>
 
 </body>
 </html>

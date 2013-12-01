@@ -1,0 +1,241 @@
+body {
+	padding:				0px;
+	margin:					0px;
+	background-color:		#FCFCFC;
+	line-height:			normal;
+}
+
+.CenterMaxWidth {
+	max-width:				1200px;
+	min-width:				800px;
+	margin-left:			auto;
+	margin-right:			auto;
+}
+
+.CenterMinWidth {
+	min-width:				800px;
+	margin-left:			auto;
+	margin-right:			auto;
+}
+
+.MainRow {
+	margin-top:				50px;
+	padding-top:			50px;
+	padding-bottom:			50px;
+}
+
+p {
+	padding-top:			10px;
+}
+
+.MainRow-Odd {
+	
+}
+
+.MainRow-Even {
+	background-color:		rgb(237,236,228);
+}
+
+.MainRow-First {
+	padding-top:			0;
+}
+
+.MainRow-Taller {
+	margin-top:				40px;
+	margin-bottom:			40px;
+}
+
+.MainRow-Footer {
+	background-color:		#333;
+	padding-top:			20px;
+	padding-bottom:			20px;
+	height:					100px;
+}
+
+.MainRow-Title {
+	padding:				10px;
+	height:					100%;
+	margin-bottom:			20px;
+}
+
+.MainRow-Content {
+	padding:				10px;
+	font-family:			'osLight';
+	/*font-size:				20px;*/
+}
+
+.MainRow-Title h3 {
+	font-family:			'osLight';
+	font-size:				40px;
+	margin:					0px;
+	margin-top:				25px;
+}
+
+.ParallelDiv {
+	box-sizing:				border-box;
+	-moz-box-sizing:		border-box; /* Firefox */
+	float:					left;
+}
+
+.PD-2 {
+	width:					20%;
+}
+
+.PD-4 {
+	width:					40%;
+}
+
+.PD-5 {
+	width:					50%;
+}
+
+.PD-6 {
+	width:					60%;
+}
+
+.PD-8 {
+	width:					80%;
+}
+
+.ClearFix {
+	clear:					both;
+}
+
+.Contact-Person {
+	box-sizing:				border-box;
+	-moz-box-sizing:		border-box; /* Firefox */
+	float:					left;
+	width:					33%;
+	height:					110px;
+	font-family:			'osLight';
+}
+
+.Contact-Ensemble {
+	height:					220px;
+}
+
+.Contact-Person h3 {
+	font-size:				26px;
+	margin-top:				20px;
+	margin-bottom:			0px;
+	display:				inline;
+}
+
+.Contact-Person h4 {
+	color:					rgba(100,100,100,0.9);
+	font-size:				17px;
+	font-weight:			500;
+	display:				block;
+	margin:					0px;
+	
+}
+
+.Contact-Mail {
+	margin-top:				5px;
+}
+
+.Contact-Mail-Name, .Contact-Mail-Domain {
+	font-weight:			600;
+}
+
+.Contact-Mail-At {
+	margin-right:			1px;
+	margin-left:			1px;
+}
+
+.Contact-Ensemble h4 {
+	margin-bottom:			10px;
+}
+
+.Contact-Mail-Domain, .Contact-Mail-At {
+	opacity:				0.8;
+}
+
+.Contact-Adress, .Contact-Tribute {
+	margin-top:				5px;
+}
+
+.Contact-Adress-Label, .Contact-Tribute-Label, .Contact-Mail-Label {
+	display:				inline-block;
+	opacity:				0.7;
+	width:					50px;
+	margin-left:			10px;
+}
+
+
+.Group-Info {
+	margin-left:			10px;
+}
+
+.Group-Container {
+	box-sizing:				border-box;
+	-moz-box-sizing:		border-box; /* Firefox */
+	width:					50%;
+	float:					left;
+}
+
+.Group-Container {
+	font-size:				17px;
+}
+
+.Group-Container h3 {
+	font-size:				26px;
+	margin-top:				20px;
+	margin-bottom:			0px;
+	display:				inline;
+}
+
+.Group-Container h4 {
+	color:					rgba(100,100,100,0.9);
+	font-size:				17px;
+	font-weight:			500;
+	display:				inline;
+	margin-left:			10px;
+	
+}
+
+.Contact-Place {
+	font-family:			'osRegular';
+	font-size:				17px;
+}
+
+.Contact-Place h3 {
+	font-size:				30px;
+	margin:					0;
+}
+
+.Contact-Place-Info {
+	width:					200px;
+}
+
+.Contact-Place-Right {
+	margin-top:				20px;
+	margin-left:			50px;
+	margin-right:			auto;
+	border-left:			thin outset rgba(100,100,100,0.9);
+}
+
+.Contact-Place-Left {
+	margin-bottom:			90px;
+	margin-right:			50px;
+	margin-left:			auto;
+	border-right:			thin inset rgba(100,100,100,0.9);
+}
+
+.Contact-Place-Left .Contact-Place-Info {
+	text-align:				right;
+	margin-left:			auto;
+	padding:				10px;
+	padding-right:			15px;
+}
+
+.Contact-Place-Right .Contact-Place-Info {
+	text-align:				left;
+	margin-right:			auto;
+	padding:				10px;
+	padding-left:			15px;
+}
+
+.Contact-Place-Right img, .Contact-Place-Left img {
+	width:					100%;
+}
