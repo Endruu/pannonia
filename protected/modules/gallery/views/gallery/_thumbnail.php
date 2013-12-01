@@ -7,7 +7,7 @@
 	</div>
 
 	<div class="Image-Thumbnail-Container">
-		<img class="Image-Thumbnail lazy" src="" data-src="<?php echo $data->getThumbnail(true, $albumDir); ?>"/>
+		<img class="Image-Thumbnail lazy" src="" data-src="<?php echo $data->getThumbnail(true, $albumDir); ?>" alt="<?php echo $data->name ? $data->name : $data->image_id; ?>"/>
 		<noscript><img class="Image-Thumbnail" src="<?php echo $data->getThumbnail(true, $albumDir); ?>"/></noscript>
 		<span class="Image-SourcePath"><?php echo $data->getImage(true, $albumDir); ?></span>
 	</div>

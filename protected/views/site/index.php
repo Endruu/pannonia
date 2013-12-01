@@ -31,7 +31,6 @@ $this->pageTitle=Yii::app()->name;
 			</p>
 			<p>
 				Csoportjaink arra törekszenek, hogy a Kárpát-medence nagy részéről tudjanak táncokat bemutatni.Így Somogytól Moldváig, Magyarbődtől Méhkerékig számos tájegység táncával ismerkedtünk már meg, állítottuk azt színpadra. A felnőtt csoport repertoárján bonchidai, illetve kalotaszegi román, magyarszováti, vajdaszentiványi, Küküllő menti, marosmagyarói, Kistarcsa környéki szlovák, sárközi, mezőföldi, domaházi táncanyagok szerepelnek. Szerkesztett műsoraink közül az „Én országom Moldova…” emelkedik ki, melyben a moldvai csángó magyarság tánchagyományát, kultúráját mutatjuk be.
-				<a href="uj.html">Tovább...</a>
 			</p>
 		</div>
 		

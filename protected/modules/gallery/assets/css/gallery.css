@@ -105,6 +105,11 @@ body {
 	position:			relative;
 	top:				-200%;
 	z-index:			0;
+	background-color:	black;
+	background-image:	url('../img/logo.png');
+	background-size:	50%;
+	background-position:center;
+	background-repeat:	no-repeat;
 }
 
 .Image-Checkbox-Hide {
@@ -153,7 +158,7 @@ body {
 	left:				300px;
 	width:				200px;
 	height:				100%;
-	z-index:			-1px;
+	z-index:			-1;
 	background-color:	rgb(237,236,228);
 }
 

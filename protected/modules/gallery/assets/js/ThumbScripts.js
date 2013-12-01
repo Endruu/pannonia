@@ -149,7 +149,7 @@ function initTS(options) {
 	TS = new ThumbScripts(options);
 	TS.afterLoad();
 	$(window).resize(TS.resizeThumbnails());
-	jQuery("img.lazy").lazy({ enableThrottle: true, throttle: 250 });
+	jQuery("img.lazy").lazy({ enableThrottle: true, throttle: 250, visibleOnly : false });
 }
 
 function startViewer(start) {
