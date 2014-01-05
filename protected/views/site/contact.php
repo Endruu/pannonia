@@ -61,7 +61,7 @@
 					2143 Kistarcsa<br />
 					Batthyány utca 4
 				</div>
-				<a href="http://maps.google.hu/maps/ms?msid=208674042497114163641.0004b21968fa9a3216ae8&msa=0&ll=47.547661,19.260235&spn=0.0042,0.009645">
+				<a target="_blank" href="http://maps.google.hu/maps/ms?msid=208674042497114163641.0004b21968fa9a3216ae8&msa=0&ll=47.547661,19.260235&spn=0.0042,0.009645">
 					<img src="http://maps.googleapis.com/maps/api/staticmap?center=47.54693,19.260256&zoom=15&size=400x350&format=gif&markers=color:red|47.547661,19.260235&sensor=false">
 				</a>
 			</div>
@@ -69,7 +69,7 @@
 
 		<div class="ParallelDiv PD-5">
 			<div class="Contact-Place-Right">
-				<a href="https://maps.google.hu/maps/ms?msid=208674042497114163641.0004ec809e028b9427976&msa=0&ll=47.5427,19.267&spn=0.006634,0.016512">
+				<a target="_blank" href="https://maps.google.hu/maps/ms?msid=208674042497114163641.0004ec809e028b9427976&msa=0&ll=47.5427,19.267&spn=0.006634,0.016512">
 					<img src="http://maps.googleapis.com/maps/api/staticmap?center=47.544,19.2645&zoom=15&size=400x350&format=gif&markers=color:blue|47.5427,19.267&sensor=false">
 				</a>
 				<div class="Contact-Place-Info">
