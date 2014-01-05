@@ -16,7 +16,7 @@ $this->pageTitle=Yii::app()->name;
 	</div>
 </div>
 
-<div class="MainRow MainRow-Odd">
+<div class="MainRow MainRow-Odd CenterMinWidth">
 	<div class="CenterMaxWidth CenterMinWidth">
 		<div class="MainRow-Title">
 			<h3>Az Együttesről</h3>
@@ -37,7 +37,7 @@ $this->pageTitle=Yii::app()->name;
 	</div>
 </div>
 
-<div class="MainRow MainRow-Even">
+<div class="MainRow MainRow-Even CenterMinWidth">
 	<div id="Main-Groups" class="CenterMaxWidth CenterMinWidth MainRow-Taller">
 		<div class="MainRow-Title ParallelDiv PD-2">
 			<h3>Próbák</h3>

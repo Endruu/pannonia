@@ -1,4 +1,4 @@
-<div class="MainRow MainRow-Odd MainRow-First">
+<div class="MainRow MainRow-Odd CenterMinWidth MainRow-First">
 	<div class="CenterMaxWidth CenterMinWidth">
 		<div class="MainRow-Title">
 			<h3>Elérhetőségek</h3>
@@ -35,7 +35,7 @@
 	</div>
 </div>
 
-<div class="MainRow MainRow-Even">
+<div class="MainRow MainRow-Even CenterMinWidth">
 	<div id="Main-Groups" class="CenterMaxWidth CenterMinWidth MainRow-Taller">
 		<div class="MainRow-Title ParallelDiv PD-2">
 			<h3>Próbák</h3>
@@ -50,7 +50,7 @@
 	</div>
 </div>
 
-<div class="MainRow MainRow-Odd Contact-Place">
+<div class="MainRow MainRow-Odd CenterMinWidth Contact-Place">
 	<div class="CenterMaxWidth CenterMinWidth">
 		
 		

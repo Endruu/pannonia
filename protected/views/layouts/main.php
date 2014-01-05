@@ -28,7 +28,7 @@
 
 <?php echo $content; ?>
 
-<div class="MainRow-Footer">
+<div class="MainRow-Footer CenterMinWidth">
 </div>
 
 </body>
